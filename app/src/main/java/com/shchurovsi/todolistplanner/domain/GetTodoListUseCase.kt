@@ -1,4 +1,4 @@
-package com.shchurovsi.todolistplanner.data
+package com.shchurovsi.todolistplanner.domain
 
 class GetTodoListUseCase(private val repository: TodoItemListRepository) {
 

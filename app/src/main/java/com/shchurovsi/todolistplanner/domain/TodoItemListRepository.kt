@@ -1,4 +1,4 @@
-package com.shchurovsi.todolistplanner.data
+package com.shchurovsi.todolistplanner.domain
 
 interface TodoItemListRepository {
 
@@ -8,7 +8,7 @@ interface TodoItemListRepository {
 
     fun editTodoItem(todoItem: TodoItem)
 
-    fun getTodoItem(todoItemId: Int): TodoItem
+    fun getTodoItem(todoItemId: Int): TodoItem?
 
     fun getTodoList(): List<TodoItem>
 }
