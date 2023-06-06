@@ -1,5 +1,7 @@
 package com.shchurovsi.todolistplanner.domain
 
+import androidx.lifecycle.LiveData
+
 interface TodoItemListRepository {
 
     fun addTodoItem(todoItem: TodoItem)
@@ -8,7 +10,8 @@ interface TodoItemListRepository {
 
     fun editTodoItem(todoItem: TodoItem)
 
+    // TODO: think about nullable implementation
     fun getTodoItem(todoItemId: Int): TodoItem?
 
-    fun getTodoList(): List<TodoItem>
+    fun getTodoList(): LiveData<List<TodoItem>>
 }
