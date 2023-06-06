@@ -14,8 +14,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        var counter = 1
+
         viewModel.todoList.observe(this) {
             Log.d("TAG", "$it")
+            if (counter == 1) {
+                counter++
+                val item = it[1]
+                viewModel.deleteTodoItem(item)
+
+            }
         }
     }
 }

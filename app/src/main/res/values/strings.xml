@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Todo List Planner</string>
+    <string name="todo_count">%1 Todos</string>
+    <string name="view_all_button">View all</string>
+    <string name="filter_panel_date">Date</string>
+    <string name="filter_panel_task">Task</string>
 </resources>
