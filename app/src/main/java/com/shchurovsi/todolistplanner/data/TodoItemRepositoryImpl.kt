@@ -11,7 +11,7 @@ import kotlin.random.Random
 
 object TodoItemRepositoryImpl : TodoItemListRepository {
 
-    private val todoItemList = mutableListOf<TodoItem>()
+    private val todoItemList = sortedSetOf<TodoItem>({ o1, o2 -> o1.id.compareTo(o2.id)})
 
     private val mutableLiveData = MutableLiveData<List<TodoItem>>()
 
@@ -21,7 +21,7 @@ object TodoItemRepositoryImpl : TodoItemListRepository {
         val sdf = SimpleDateFormat("dd-M-yyyy hh:mm")
         val currentDate = sdf.format(Date())
         val today = Calendar.getInstance()
-        for (i in 0..1000) {
+        for (i in 0..10) {
             addTodoItem(TodoItem(
                 "№ $i: Do something!",
                 "Common",

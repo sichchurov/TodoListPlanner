@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
 import com.shchurovsi.todolistplanner.databinding.ActivityMainBinding
 import com.shchurovsi.todolistplanner.presentation.TodoListAdapter.Companion.ITEM_VIEW_COMPLETED
 import com.shchurovsi.todolistplanner.presentation.TodoListAdapter.Companion.ITEM_VIEW_UNCOMPLETED
@@ -23,17 +22,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupRecyclerView()
-        viewModel.todoList.observe(this) {
-            todoListAdapter.todoList = it
+        viewModel.todoList.observe(this) { todoList ->
+            todoListAdapter.todoList = todoList
         }
 
-        binding.checkBoxFilterPanel.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (buttonView.isChecked) {
-                Log.d("TAG", "Point is checked $isChecked")
-            } else {
-                Log.d("TAG", "Point is unchecked $isChecked")
-            }
-        }
+        changeTodoStatus()
     }
 
     private fun setupRecyclerView() {
@@ -43,9 +36,20 @@ class MainActivity : AppCompatActivity() {
             recycledViewPool.setMaxRecycledViews(ITEM_VIEW_COMPLETED, MAX_POOL_SIZE)
             recycledViewPool.setMaxRecycledViews(ITEM_VIEW_UNCOMPLETED, MAX_POOL_SIZE)
         }
-        todoListAdapter.onTodoItemClickListener = {
+        todoListAdapter.onTodoStatusClickListener = {
+            Log.d("MainActivity", "Click element: ${it.id}")
 
-            viewModel.editTodoItem(it)
         }
+    }
+
+    private fun changeTodoStatus() {
+        todoListAdapter.onTodoStatusClickListener = {
+            if (it.unCompleted) {
+                viewModel.setStatusCompleted(it)
+            } else {
+                viewModel.setStatusUnCompleted(it)
+            }
+        }
+
     }
 }

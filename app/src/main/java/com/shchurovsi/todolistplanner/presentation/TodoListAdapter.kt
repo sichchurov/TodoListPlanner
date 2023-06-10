@@ -1,10 +1,8 @@
 package com.shchurovsi.todolistplanner.presentation
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.shchurovsi.todolistplanner.databinding.TodoItemBinding
 import com.shchurovsi.todolistplanner.databinding.TodoItemCompletedBinding
@@ -12,7 +10,7 @@ import com.shchurovsi.todolistplanner.domain.TodoItem
 
 class TodoListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var onTodoItemClickListener: ((TodoItem) -> Unit)? = null
+    var onTodoStatusClickListener: ((TodoItem) -> Unit)? = null
 
     var todoList = listOf<TodoItem>()
         @SuppressLint("NotifyDataSetChanged")
@@ -21,24 +19,16 @@ class TodoListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             notifyDataSetChanged()
         }
 
-    private var count = 0
-    private var count2 = 0
-
     private inner class TodoListViewHolder(private val binding: TodoItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindTo(todoItem: TodoItem) = with(binding) {
             tvTitle.text = todoItem.title
             tvDate.text = todoItem.dateEnd
             checkBoxFilterPanel.isChecked = false
-            root.setOnClickListener {
-                onTodoItemClickListener?.invoke(todoItem)
+
+            checkBoxFilterPanel.setOnClickListener {
+                onTodoStatusClickListener?.invoke(todoItem)
             }
-            tvTitle.setTextColor(
-                ContextCompat.getColor(
-                    itemView.context,
-                    android.R.color.holo_orange_light
-                )
-            )
         }
     }
 
@@ -48,17 +38,14 @@ class TodoListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             tvTitle.text = todoItem.title
             tvDate.text = todoItem.dateEnd
             checkBoxFilterPanel.isChecked = true
-            tvTitle.setTextColor(
-                ContextCompat.getColor(
-                    binding.root.context,
-                    android.R.color.holo_green_dark
-                )
-            )
+
+            checkBoxFilterPanel.setOnClickListener {
+                onTodoStatusClickListener?.invoke(todoItem)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        Log.d("TodoListAdapter", "TodoListViewHolder count: ${++count}")
         return when (viewType) {
             ITEM_VIEW_UNCOMPLETED -> {
                 TodoListViewHolder(
@@ -71,7 +58,6 @@ class TodoListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
 
             ITEM_VIEW_COMPLETED -> {
-                Log.d("TodoListAdapter", "TodoListCompletedViewHolder count: ${++count2}")
                 TodoListCompletedViewHolder(
                     TodoItemCompletedBinding.inflate(
                         LayoutInflater.from(parent.context),
@@ -83,7 +69,6 @@ class TodoListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             else -> throw RuntimeException("The viewtype value of $viewType is not supported")
         }
-
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -98,21 +83,17 @@ class TodoListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    interface TodoItemClickListener {
-        fun todoItemClick(todoItem: TodoItem)
-    }
-
-    override fun getItemCount(): Int {
-        return todoList.size
-    }
+    override fun getItemCount() = todoList.size
 
     override fun getItemViewType(position: Int): Int {
-        return if (todoList[position].completed) {
+        return if (todoList[position].unCompleted) {
             ITEM_VIEW_COMPLETED
         } else {
             ITEM_VIEW_UNCOMPLETED
         }
     }
+
+
 
     companion object {
         const val ITEM_VIEW_UNCOMPLETED = 0
