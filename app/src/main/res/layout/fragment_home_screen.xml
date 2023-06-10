@@ -60,6 +60,7 @@
         app:layout_constraintTop_toBottomOf="@id/view_all_button" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/filter_panel_background"
@@ -71,20 +72,22 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingStart="9dp"
             android:paddingTop="13dp"
             android:paddingEnd="9dp"
-            android:paddingBottom="13dp">
+            android:paddingBottom="12dp">
 
             <CheckBox
                 android:id="@+id/check_box_filter_panel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_unchecked_checkbox"
+                android:button="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5" />
+                tools:ignore="TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
             <TextView
                 android:id="@+id/tv_date"
@@ -114,5 +117,45 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc_main"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="49dp"
+        app:layout_constraintBottom_toTopOf="@id/load_more_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        tools:listitem="@layout/todo_item" />
+
+    <ImageButton
+        android:id="@+id/load_more_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="62dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/load_more_button_text"
+        android:minHeight="48dp"
+        android:src="@drawable/bg_load_more_button"
+        app:layout_constraintBottom_toTopOf="@+id/fab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ImageContrastCheck" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="76dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

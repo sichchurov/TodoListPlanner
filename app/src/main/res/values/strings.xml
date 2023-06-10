@@ -4,4 +4,5 @@
     <string name="view_all_button">View all</string>
     <string name="filter_panel_date">Date</string>
     <string name="filter_panel_task">Task</string>
+    <string name="load_more_button_text">Load more…</string>
 </resources>

@@ -1,10 +1,13 @@
 package com.shchurovsi.todolistplanner.data
 
+import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shchurovsi.todolistplanner.domain.TodoItem
 import com.shchurovsi.todolistplanner.domain.TodoItemListRepository
+import java.util.Date
+import kotlin.random.Random
 
 object TodoItemRepositoryImpl : TodoItemListRepository {
 
@@ -15,9 +18,16 @@ object TodoItemRepositoryImpl : TodoItemListRepository {
     private var counterIncrement = 0
 
     init {
-        val today = Calendar.getInstance().time
-        for (i in 'a'..'f') {
-            addTodoItem(TodoItem(i.toString(), i.toString().uppercase(), today.toString()))
+        val sdf = SimpleDateFormat("dd-M-yyyy hh:mm")
+        val currentDate = sdf.format(Date())
+        val today = Calendar.getInstance()
+        for (i in 0..1000) {
+            addTodoItem(TodoItem(
+                "№ $i: Do something!",
+                "Common",
+                currentDate.toString(),
+                Random.nextBoolean()
+            ))
         }
     }
 

@@ -26,7 +26,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun editTodoItem(todoItem: TodoItem) {
-        val newTodoItem = todoItem.copy(title = "edited")
+        val newTodoItem = todoItem.copy(completed = false)
         editTodoItem.editTodoItem(newTodoItem)
 
     }
