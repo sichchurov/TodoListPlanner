@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.shchurovsi.todolistplanner.databinding.ActivityMainBinding
 import com.shchurovsi.todolistplanner.presentation.TodoListAdapter.Companion.ITEM_VIEW_COMPLETED
 import com.shchurovsi.todolistplanner.presentation.TodoListAdapter.Companion.ITEM_VIEW_UNCOMPLETED
@@ -26,7 +28,32 @@ class MainActivity : AppCompatActivity() {
             todoListAdapter.todoList = todoList
         }
 
+        swipeToRemoveTodoItem()
+
         changeTodoStatus()
+
+    }
+
+    private fun swipeToRemoveTodoItem() {
+        ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val position = viewHolder.layoutPosition
+                    val todoItems = viewModel.todoList.value
+                    if (!todoItems.isNullOrEmpty()) {
+                        viewModel.deleteTodoItem(todoItems[position])
+                    }
+                }
+            }
+        ).attachToRecyclerView(binding.rcMain)
     }
 
     private fun setupRecyclerView() {

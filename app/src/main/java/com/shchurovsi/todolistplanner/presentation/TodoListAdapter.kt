@@ -3,6 +3,7 @@ package com.shchurovsi.todolistplanner.presentation
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.shchurovsi.todolistplanner.databinding.TodoItemBinding
 import com.shchurovsi.todolistplanner.databinding.TodoItemCompletedBinding
@@ -92,8 +93,6 @@ class TodoListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             ITEM_VIEW_UNCOMPLETED
         }
     }
-
-
 
     companion object {
         const val ITEM_VIEW_UNCOMPLETED = 0

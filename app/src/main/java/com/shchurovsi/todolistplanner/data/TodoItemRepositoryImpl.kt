@@ -23,7 +23,7 @@ object TodoItemRepositoryImpl : TodoItemListRepository {
         val today = Calendar.getInstance()
         for (i in 0..10) {
             addTodoItem(TodoItem(
-                "№ $i: Do something!",
+                "№ ${Random.nextInt(0, 15)}: Do something!",
                 "Common",
                 currentDate.toString(),
                 Random.nextBoolean()
