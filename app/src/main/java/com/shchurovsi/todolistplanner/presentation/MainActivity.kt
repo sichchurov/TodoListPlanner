@@ -23,37 +23,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupRecyclerView()
-        viewModel.todoList.observe(this) { todoList ->
-            todoListAdapter.todoList = todoList
+
+
+        viewModel.todoList.observe(this) {
+            todoListAdapter.submitList(it)
         }
 
-        swipeToRemoveTodoItem()
-
-        changeTodoStatus()
-
-    }
-
-    private fun swipeToRemoveTodoItem() {
-        ItemTouchHelper(
-            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    return false
-                }
-
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val position = viewHolder.layoutPosition
-                    val todoItems = viewModel.todoList.value
-                    if (!todoItems.isNullOrEmpty()) {
-                        viewModel.deleteTodoItem(todoItems[position])
-                    }
-                }
-            }
-        ).attachToRecyclerView(binding.rcMain)
+        setupRecyclerView()
     }
 
     private fun setupRecyclerView() {
@@ -63,13 +39,40 @@ class MainActivity : AppCompatActivity() {
             recycledViewPool.setMaxRecycledViews(ITEM_VIEW_COMPLETED, MAX_POOL_SIZE)
             recycledViewPool.setMaxRecycledViews(ITEM_VIEW_UNCOMPLETED, MAX_POOL_SIZE)
         }
-        todoListAdapter.onTodoStatusClickListener = {
-            Log.d("MainActivity", "Click element: ${it.id}")
+        setupSwipeListener()
 
+        setupChangingStatusListener()
+
+        todoListAdapter.onTodoClickListener = {
+            Log.d("MainActivity", "Click element: $it")
         }
+
     }
 
-    private fun changeTodoStatus() {
+    private fun setupSwipeListener() {
+        val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val viewModelTodoList = viewModel.todoList.value
+                val todoItem = viewModelTodoList?.get(viewHolder.adapterPosition)
+                if (todoItem != null) {
+                    viewModel.deleteTodoItem(todoItem)
+                }
+                Log.d("MainActivity", "${viewModelTodoList?.size}")
+            }
+        }
+        val callbackHolder = ItemTouchHelper(callback)
+        callbackHolder.attachToRecyclerView(binding.rcMain)
+    }
+
+    private fun setupChangingStatusListener() {
         todoListAdapter.onTodoStatusClickListener = {
             if (it.unCompleted) {
                 viewModel.setStatusCompleted(it)
