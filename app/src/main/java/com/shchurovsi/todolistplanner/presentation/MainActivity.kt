@@ -24,12 +24,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupRecyclerView()
 
         viewModel.todoList.observe(this) {
             todoListAdapter.submitList(it)
         }
 
-        setupRecyclerView()
+        todoListAdapter.onTodoClickListener = {
+            Log.d("MainActivity", "Click element: $it")
+        }
+
     }
 
     private fun setupRecyclerView() {
@@ -39,18 +43,15 @@ class MainActivity : AppCompatActivity() {
             recycledViewPool.setMaxRecycledViews(ITEM_VIEW_COMPLETED, MAX_POOL_SIZE)
             recycledViewPool.setMaxRecycledViews(ITEM_VIEW_UNCOMPLETED, MAX_POOL_SIZE)
         }
+
         setupSwipeListener()
 
         setupChangingStatusListener()
 
-        todoListAdapter.onTodoClickListener = {
-            Log.d("MainActivity", "Click element: $it")
-        }
-
     }
 
     private fun setupSwipeListener() {
-        val callback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -60,16 +61,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val viewModelTodoList = viewModel.todoList.value
-                val todoItem = viewModelTodoList?.get(viewHolder.adapterPosition)
-                if (todoItem != null) {
-                    viewModel.deleteTodoItem(todoItem)
-                }
-                Log.d("MainActivity", "${viewModelTodoList?.size}")
+                val position = viewHolder.adapterPosition
+                val todoItem = todoListAdapter.currentList[position]
+                viewModel.deleteTodoItem(todoItem)
             }
-        }
-        val callbackHolder = ItemTouchHelper(callback)
-        callbackHolder.attachToRecyclerView(binding.rcMain)
+        }).attachToRecyclerView(binding.rcMain)
     }
 
     private fun setupChangingStatusListener() {
@@ -80,6 +76,5 @@ class MainActivity : AppCompatActivity() {
                 viewModel.setStatusUnCompleted(it)
             }
         }
-
     }
 }

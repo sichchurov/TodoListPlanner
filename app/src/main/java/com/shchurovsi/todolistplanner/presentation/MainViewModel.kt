@@ -20,7 +20,6 @@ class MainViewModel : ViewModel() {
     val todoList: LiveData<List<TodoItem>>
         get() = _todoList
 
-
     fun deleteTodoItem(todoItem: TodoItem) {
         deleteTodoItem.deleteTodoItem(todoItem)
     }

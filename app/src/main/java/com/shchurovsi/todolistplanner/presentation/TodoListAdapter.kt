@@ -1,10 +1,8 @@
 package com.shchurovsi.todolistplanner.presentation
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckBox
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.shchurovsi.todolistplanner.R
@@ -44,13 +42,16 @@ class TodoListAdapter : ListAdapter<TodoItem, RecyclerView.ViewHolder>(TodoItemD
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Log.d("TodoListAdapter", "onBind starts")
-        val checkBox= holder.itemView.findViewById<CheckBox>(R.id.check_box_filter_panel)
-        val parent = holder.itemView.findViewById<CardView>(R.id.cardView)
+        val checkBox = holder.itemView.findViewById<CheckBox>(R.id.check_box_filter_panel)
 
         when (holder) {
             is TodoListViewHolder -> {
-                holder.bindTo(getItem(position))
+                holder.apply {
+                    bindTo(getItem(holder.adapterPosition))
+                    itemView.setOnClickListener {
+                        onTodoClickListener?.invoke(getItem(holder.adapterPosition))
+                    }
+                }
             }
 
             is TodoListCompletedViewHolder -> {
@@ -59,11 +60,7 @@ class TodoListAdapter : ListAdapter<TodoItem, RecyclerView.ViewHolder>(TodoItemD
         }
 
         checkBox.setOnClickListener {
-            onTodoStatusClickListener?.invoke(currentList[position])
-        }
-
-        parent.setOnClickListener {
-            onTodoClickListener?.invoke(currentList[position])
+            onTodoStatusClickListener?.invoke(getItem(holder.adapterPosition))
         }
     }
 
