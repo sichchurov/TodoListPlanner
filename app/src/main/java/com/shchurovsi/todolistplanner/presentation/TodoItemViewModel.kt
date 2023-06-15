@@ -1,7 +1,7 @@
 package com.shchurovsi.todolistplanner.presentation
 
-import android.accounts.AuthenticatorDescription
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.shchurovsi.todolistplanner.data.TodoItemListRepositoryImpl
 import com.shchurovsi.todolistplanner.domain.AddTodoItemUseCase
@@ -19,6 +19,18 @@ class TodoItemViewModel : ViewModel() {
     private val editTodoItemUseCase = EditTodoItemUseCase(repository)
     private val getTodoItemUseCase = GetTodoItemUseCase(repository)
 
+    private val _inputErrorName = MutableLiveData<Boolean>()
+    val inputErrorName: LiveData<Boolean>
+        get() = _inputErrorName
+
+    private val _inputErrorDescription = MutableLiveData<Boolean>()
+    val inputErrorDescription: LiveData<Boolean>
+        get() = _inputErrorName
+
+    private val _todoItem = MutableLiveData<TodoItem>()
+    val todoItem: LiveData<TodoItem>
+        get() = _todoItem
+
     // TODO: add date impl to function
     fun addTodoItem(inputTitle: String?, inputDescription: String?) {
         val title = parseTitle(inputTitle)
@@ -33,16 +45,18 @@ class TodoItemViewModel : ViewModel() {
         deleteTodoItemUseCase.deleteTodoItem(todoItem)
     }
 
-    fun editTodoItem(todoItem: TodoItem) {
-        val title = parseTitle(todoItem.title)
-        val description = parseInputDescription(todoItem.description)
+    fun editTodoItem(inputTitle: String?, inputDescription: String?) {
+        val title = parseTitle(inputTitle)
+        val description = parseInputDescription(inputDescription)
         if (validateFields(title, description)) {
+            val todoItem = TodoItem(title, description, true)
             editTodoItemUseCase.editTodoItem(todoItem)
         }
     }
 
     fun getTodoItem(todoItemId: Int) {
         val item = getTodoItemUseCase.getTodoItem(todoItemId)
+        _todoItem.value = item
     }
 
     private fun parseTitle(inputTitle: String?): String {
@@ -60,15 +74,23 @@ class TodoItemViewModel : ViewModel() {
         var result = true
 
         if (title.isBlank()) {
-            // TODO: show error input name
+            _inputErrorName.value = true
             result = false
         }
 
         if (description.isBlank()) {
-            // TODO: show error input description
+            _inputErrorDescription.value = true
             result = false
         }
         return result
+    }
+
+    private fun resetInputTitleError() {
+        _inputErrorName.value = false
+    }
+
+    private fun resetInputDesciptionError() {
+        _inputErrorDescription.value = false
     }
 
 }

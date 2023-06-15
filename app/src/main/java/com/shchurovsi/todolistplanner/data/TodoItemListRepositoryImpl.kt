@@ -1,33 +1,28 @@
 package com.shchurovsi.todolistplanner.data
 
-import android.icu.text.SimpleDateFormat
-import android.icu.util.Calendar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shchurovsi.todolistplanner.domain.TodoItem
 import com.shchurovsi.todolistplanner.domain.TodoItemListRepository
-import java.util.Date
 import kotlin.random.Random
 
 object TodoItemListRepositoryImpl : TodoItemListRepository {
 
-    private val todoItemList = sortedSetOf<TodoItem>({ o1, o2 -> o1.id.compareTo(o2.id)})
+    private val todoItemList = sortedSetOf<TodoItem>({ o1, o2 -> o1.id.compareTo(o2.id) })
 
     private val mutableLiveData = MutableLiveData<List<TodoItem>>()
 
     private var counterIncrement = 0
 
     init {
-        val sdf = SimpleDateFormat("dd-M-yyyy hh:mm")
-        val currentDate = sdf.format(Date())
-        val today = Calendar.getInstance()
         for (i in 0..5) {
-            addTodoItem(TodoItem(
-                "№ $i: Do something!",
-                "Common",
-                currentDate.toString(),
-                Random.nextBoolean()
-            ))
+            addTodoItem(
+                TodoItem(
+                    "№ $i: Do something!",
+                    "Common",
+                    Random.nextBoolean()
+                )
+            )
         }
     }
 
@@ -50,10 +45,10 @@ object TodoItemListRepositoryImpl : TodoItemListRepository {
         addTodoItem(todoItem)
     }
 
-    override fun getTodoItem(todoItemId: Int): TodoItem? {
+    override fun getTodoItem(todoItemId: Int): TodoItem {
         return todoItemList.find {
             it.id == todoItemId
-        }
+        } ?: throw RuntimeException("Element with id $todoItemId not found")
     }
 
     override fun getTodoList(): LiveData<List<TodoItem>> {
