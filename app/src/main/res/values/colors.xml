@@ -2,9 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#1AB8DB</color>
     <color name="view_all_button_color">#1AB8DB</color>
     <color name="filter_panel_background">#D9D9D9</color>
     <color name="todo_item_background">#EEEEEE</color>
     <color name="todo_item_completed_background">#88EEEEEE</color>
     <color name="add_item_background">#1AB8DB</color>
+    <color name="cancel_button_background">#FF0000</color>
 </resources>

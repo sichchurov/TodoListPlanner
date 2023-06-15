@@ -9,7 +9,7 @@ import com.shchurovsi.todolistplanner.domain.TodoItemListRepository
 import java.util.Date
 import kotlin.random.Random
 
-object TodoItemRepositoryImpl : TodoItemListRepository {
+object TodoItemListRepositoryImpl : TodoItemListRepository {
 
     private val todoItemList = sortedSetOf<TodoItem>({ o1, o2 -> o1.id.compareTo(o2.id)})
 

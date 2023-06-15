@@ -1,5 +1,6 @@
 package com.shchurovsi.todolistplanner.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -31,7 +32,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         todoListAdapter.onTodoClickListener = {
-            Log.d("MainActivity", "Click element: $it")
+            startActivity(
+                Intent(this, TodoItemActivity::class.java)
+            )
         }
 
     }

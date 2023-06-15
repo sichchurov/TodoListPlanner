@@ -5,4 +5,13 @@
     <string name="filter_panel_date">Date</string>
     <string name="filter_panel_task">Task</string>
     <string name="load_more_button_text">Load more…</string>
+    <string name="logo_icon">logo_icon</string>
+    <string name="title">Title</string>
+    <string name="enter_task_title">Enter task title</string>
+    <string name="description">Description</string>
+    <string name="enter_task_description">Enter task description</string>
+    <string name="date_end">Date end</string>
+    <string name="click_here_to_choose_date">Click here to choose date</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
 </resources>
