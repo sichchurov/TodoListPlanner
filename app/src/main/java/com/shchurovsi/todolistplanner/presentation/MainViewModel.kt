@@ -24,10 +24,6 @@ class MainViewModel : ViewModel() {
         deleteTodoItem.deleteTodoItem(todoItem)
     }
 
-    fun editTodoItem(todoItem: TodoItem) {
-
-    }
-
     fun setStatusCompleted(todoItem: TodoItem) {
         val newTodoItem = todoItem.copy(unCompleted = false)
         editTodoItem.editTodoItem(newTodoItem)

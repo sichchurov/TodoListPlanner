@@ -8,7 +8,6 @@ import android.icu.util.Calendar
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -146,7 +145,7 @@ class TodoItemActivity : AppCompatActivity() {
                 cal.set(Calendar.MONTH, monthOfYear)
                 cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
-                val date = Date(cal.time.time) // 2023-06-22
+                val date = Date(cal.time.time)
 
                 val formatter = SimpleDateFormat(INPUT_DATE_FORMAT, Locale.getDefault())
                 val parser =  SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -237,8 +236,6 @@ class TodoItemActivity : AppCompatActivity() {
         private const val MODE_ADD = "mode_add"
         private const val MODE_EDIT = "mode_edit"
         private const val UNDEFINED_EXTRA_VALUE = ""
-
-        const val REQUIRED_FORMAT_DATE = "d MMM yyyy"
 
         fun newIntentAddTodo(context: Context): Intent {
             val intent = Intent(context, TodoItemActivity::class.java)

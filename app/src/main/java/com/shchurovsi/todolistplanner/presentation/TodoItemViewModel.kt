@@ -1,7 +1,6 @@
 package com.shchurovsi.todolistplanner.presentation
 
 import android.icu.text.SimpleDateFormat
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,7 +29,6 @@ class TodoItemViewModel : ViewModel() {
     private val _inputErrorDate = MutableLiveData<Boolean>()
     val inputErrorDate: LiveData<Boolean>
         get() = _inputErrorDate
-
 
     // если все поля заполнены, то переходим на главный экран
     // проверка делается в случае добавления объекта из другого потока

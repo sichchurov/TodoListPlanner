@@ -129,35 +129,23 @@
         android:layout_marginTop="15dp"
         android:layout_marginBottom="49dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/load_more_button"
+        app:layout_constraintBottom_toTopOf="@id/fab"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         tools:listitem="@layout/todo_item" />
 
-    <ImageButton
-        android:id="@+id/load_more_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="62dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/load_more_button_text"
-        android:minHeight="48dp"
-        android:src="@drawable/bg_load_more_button"
-        app:layout_constraintBottom_toTopOf="@+id/fab"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="ImageContrastCheck" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <ImageButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="76dp"
         android:clickable="true"
         android:focusable="true"
+        android:src="@drawable/ic_add_button"
+        android:background="@android:color/transparent"
         android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
