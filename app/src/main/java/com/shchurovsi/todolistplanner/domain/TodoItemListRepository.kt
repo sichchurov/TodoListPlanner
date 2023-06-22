@@ -9,9 +9,7 @@ interface TodoItemListRepository {
     fun deleteTodoItem(todoItem: TodoItem)
 
     fun editTodoItem(todoItem: TodoItem)
-
-    // TODO: think about nullable implementation
-    fun getTodoItem(todoItemId: Int): TodoItem?
+    fun getTodoItem(todoItemId: Int): TodoItem
 
     fun getTodoList(): LiveData<List<TodoItem>>
 }

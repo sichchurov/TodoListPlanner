@@ -1,25 +1,17 @@
 package com.shchurovsi.todolistplanner.data
 
-import android.icu.util.Calendar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.shchurovsi.todolistplanner.domain.TodoItem
 import com.shchurovsi.todolistplanner.domain.TodoItemListRepository
 
-object TodoItemRepositoryImpl : TodoItemListRepository {
+object TodoItemListRepositoryImpl : TodoItemListRepository {
 
-    private val todoItemList = mutableListOf<TodoItem>()
+    private val todoItemList = sortedSetOf<TodoItem>({ o1, o2 -> o1.id.compareTo(o2.id) })
 
     private val mutableLiveData = MutableLiveData<List<TodoItem>>()
 
     private var counterIncrement = 0
-
-    init {
-        val today = Calendar.getInstance().time
-        for (i in 'a'..'f') {
-            addTodoItem(TodoItem(i.toString(), i.toString().uppercase(), today.toString()))
-        }
-    }
 
     override fun addTodoItem(todoItem: TodoItem) {
         if (todoItem.id == TodoItem.UNDEFINED_ID) {
@@ -40,10 +32,10 @@ object TodoItemRepositoryImpl : TodoItemListRepository {
         addTodoItem(todoItem)
     }
 
-    override fun getTodoItem(todoItemId: Int): TodoItem? {
+    override fun getTodoItem(todoItemId: Int): TodoItem {
         return todoItemList.find {
             it.id == todoItemId
-        }
+        } ?: throw RuntimeException("Element with id $todoItemId not found")
     }
 
     override fun getTodoList(): LiveData<List<TodoItem>> {

@@ -3,7 +3,15 @@
     <style name="Base.Theme.TodoListPlanner" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:fontFamily">@font/montserrat</item>
     </style>
 
     <style name="Theme.TodoListPlanner" parent="Base.Theme.TodoListPlanner" />
+
+    <style name="MyDatePickerStyle" parent="Theme.AppCompat.Light.Dialog" >
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorPrimary</item>
+    </style>
+
 </resources>

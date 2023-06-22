@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingStart="15dp"
     android:paddingEnd="15dp"
-    tools:context=".presentation.MainActivity">
+    tools:context=".presentation.fragments.HomeScreenFragment">
 
     <ImageView
         android:id="@+id/im_logo"
@@ -15,7 +15,7 @@
         android:layout_marginTop="20dp"
         android:background="@android:color/transparent"
         android:importantForAccessibility="no"
-        android:src="@drawable/ic_mini_logo"
+        android:src="@drawable/ic_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         tools:ignore="ImageContrastCheck" />
 
     <TextView
-        android:id="@+id/tv_todos_count"
+        android:id="@+id/todos_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="11dp"
@@ -80,12 +80,10 @@
 
             <CheckBox
                 android:id="@+id/check_box_filter_panel"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/checkbox_layout"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_unchecked_checkbox"
                 android:button="@null"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -95,8 +93,7 @@
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingEnd="10dp"
-                android:paddingStart="10dp"
+                android:layout_marginStart="28dp"
                 android:fontFamily="@font/montserrat"
                 android:text="@string/filter_panel_date"
                 android:textSize="16sp"
@@ -106,15 +103,14 @@
                 app:layout_constraintVertical_bias="0.5" />
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="64sp"
                 android:fontFamily="@font/montserrat"
                 android:text="@string/filter_panel_task"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_date"
+                app:layout_constraintStart_toEndOf="@id/tv_date"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5" />
 
@@ -128,28 +124,38 @@
         android:layout_height="0dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="49dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/fab"
+        app:layout_constraintBottom_toTopOf="@id/load_more_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         tools:listitem="@layout/todo_item" />
 
-
     <ImageButton
+        android:id="@+id/load_more_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="62dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/load_more_button_text"
+        android:minHeight="48dp"
+        android:src="@drawable/bg_load_more_button"
+        app:layout_constraintBottom_toTopOf="@+id/fab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ImageContrastCheck" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="76dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_add_button"
-        android:background="@android:color/transparent"
         android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="ImageContrastCheck" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
