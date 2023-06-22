@@ -8,4 +8,10 @@
     </style>
 
     <style name="Theme.TodoListPlanner" parent="Base.Theme.TodoListPlanner" />
+
+    <style name="MyDatePickerStyle" parent="Theme.AppCompat.Light.Dialog" >
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorOnPrimary">@color/colorPrimary</item>
+    </style>
+
 </resources>

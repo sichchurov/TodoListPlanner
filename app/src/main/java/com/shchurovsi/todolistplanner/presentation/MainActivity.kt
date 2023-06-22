@@ -1,12 +1,12 @@
 package com.shchurovsi.todolistplanner.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.shchurovsi.todolistplanner.R
 import com.shchurovsi.todolistplanner.databinding.ActivityMainBinding
 import com.shchurovsi.todolistplanner.presentation.TodoListAdapter.Companion.ITEM_VIEW_COMPLETED
 import com.shchurovsi.todolistplanner.presentation.TodoListAdapter.Companion.ITEM_VIEW_UNCOMPLETED
@@ -25,18 +25,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupRecyclerView()
-
         viewModel.todoList.observe(this) {
             todoListAdapter.submitList(it)
         }
 
+        setupRecyclerView()
+
+        setupRecyclerViewHeader()
+
         todoListAdapter.onTodoClickListener = {
-            startActivity(
-                Intent(this, TodoItemActivity::class.java)
-            )
+            startActivity(TodoItemActivity.newIntentEditTodo(this, it.id))
         }
 
+        binding.fab.setOnClickListener {
+            startActivity(TodoItemActivity.newIntentAddTodo(this))
+        }
     }
 
     private fun setupRecyclerView() {
@@ -51,6 +54,24 @@ class MainActivity : AppCompatActivity() {
 
         setupChangingStatusListener()
 
+    }
+
+    private fun setupRecyclerViewHeader() = with(binding) {
+        viewModel.apply {
+
+            tvTodosCount.text = getString(
+                R.string.todo_count,
+                todoList.value?.size ?: 0
+            )
+
+            todoList.observe(this@MainActivity) {
+                tvTodosCount.text =
+                    getString(R.string.todo_count, it.size)
+            }
+
+        }
+
+        // TODO: implement view all button
     }
 
     private fun setupSwipeListener() {
@@ -80,4 +101,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 }
