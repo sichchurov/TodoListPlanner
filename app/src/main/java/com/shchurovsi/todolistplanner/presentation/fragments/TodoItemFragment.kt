@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.shchurovsi.todolistplanner.R
@@ -68,7 +69,6 @@ class TodoItemFragment : Fragment() {
     private fun launchRightMode() {
         when (screenMode) {
             MODE_ADD -> {
-                Log.d("TAG", "ADD starts")
                 launchAddMode()
             }
 
@@ -245,6 +245,7 @@ class TodoItemFragment : Fragment() {
     private fun getFinishWorkStatus() {
         todoItemViewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
             activity?.onBackPressedDispatcher?.onBackPressed()
+            Log.d("TAG", "PRESSED")
         }
     }
 

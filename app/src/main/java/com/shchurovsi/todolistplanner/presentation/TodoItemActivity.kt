@@ -21,11 +21,10 @@ class TodoItemActivity : AppCompatActivity() {
         binding = ActivityTodoItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
         parseExtra()
-        startApp()
-    }
 
-    private fun startApp() {
-        launchRightMode()
+        if (savedInstanceState == null) {
+            launchRightMode()
+        }
     }
 
     private fun launchRightMode() {
@@ -44,7 +43,7 @@ class TodoItemActivity : AppCompatActivity() {
         }
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.todo_item_container, fragment)
+            .replace(R.id.todo_item_container, fragment)
             .commit()
     }
 

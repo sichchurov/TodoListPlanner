@@ -1,8 +1,12 @@
 package com.shchurovsi.todolistplanner.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.shchurovsi.todolistplanner.R
@@ -10,10 +14,13 @@ import com.shchurovsi.todolistplanner.databinding.ActivityMainBinding
 import com.shchurovsi.todolistplanner.presentation.TodoListAdapter.Companion.ITEM_VIEW_COMPLETED
 import com.shchurovsi.todolistplanner.presentation.TodoListAdapter.Companion.ITEM_VIEW_UNCOMPLETED
 import com.shchurovsi.todolistplanner.presentation.TodoListAdapter.Companion.MAX_POOL_SIZE
+import com.shchurovsi.todolistplanner.presentation.fragments.TodoItemFragment
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private var todoItemContainer: FragmentContainerView? = null
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -32,13 +39,41 @@ class MainActivity : AppCompatActivity() {
 
         setupRecyclerViewHeader()
 
+        todoItemContainer = findViewById(R.id.fragment_container_view)
+        
+
         todoListAdapter.onTodoClickListener = {
-            startActivity(TodoItemActivity.newIntentEditTodo(this, it.id))
+            if (isOnePainView()) {
+                startActivity(TodoItemActivity.newIntentEditTodo(this@MainActivity, it.id))
+            } else {
+                setupLandViewTodoAddEditItem(
+                    TodoItemFragment.newInstanceEditTodoItemFragment(it.id)
+                )
+            }
         }
 
         binding.fab.setOnClickListener {
-            startActivity(TodoItemActivity.newIntentAddTodo(this))
+            if (isOnePainView()) {
+                startActivity(TodoItemActivity.newIntentAddTodo(this))
+            } else {
+                setupLandViewTodoAddEditItem(
+                    TodoItemFragment.newInstanceAddTodoItemFragment()
+                )
+            }
         }
+    }
+
+    private fun isOnePainView(): Boolean {
+        return todoItemContainer == null
+    }
+
+    private fun setupLandViewTodoAddEditItem(fragment: Fragment) {
+        supportFragmentManager.popBackStack()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view, fragment)
+            .addToBackStack(null)
+            .commit()
+
     }
 
     private fun setupRecyclerView() {
